@@ -59,6 +59,27 @@
       </form>
     </div>
 
+    <div class="login">
+      <h3>Login</h3>
+      <form method="POST" action="/user/login">
+        <label for="username">Email</label>
+        <input
+          id="username"
+          name="username"
+          placeholder="Enter you Email"
+          type="email"
+        /><br /><br />
+        <label for="password">Password</label>
+        <input
+          id="password"
+          name="password"
+          placeholder="Enter you password"
+          type="password"
+        /><br /><br />
+        <button>Submit</button>
+      </form>
+    </div>
+
     <script>
       const role = document.getElementById("role");
       const dept = document.getElementById("departmentField");

@@ -34,6 +34,8 @@ const userSchema = new mongoose.Schema(
 );
 
 // passport-local-mongoose adds hash/salt and authentication helpers
-userSchema.plugin(passportLocalMongoose);
+userSchema.plugin(passportLocalMongoose, {
+  usernameField: "email",
+});
 
 module.exports = mongoose.model("User", userSchema);
