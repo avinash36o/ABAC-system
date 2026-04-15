@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>home</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <h1>welcome to homepage</h1>
+    <br /><br />
+    <div class="signup">
+      <h2>Signup</h2>
+      <form method="post" action="/user">
+        <label for="username">Username</label>
+        <input
+          name="username"
+          id="username"
+          type="text"
+          placeholder="Enter your name"
+          required
+        /><br /><br />
+        <label for="email">Email</label>
+        <input
+          name="email"
+          id="email"
+          type="email"
+          placeholder="Enter your email"
+          required
+        /><br /><br />
+        <label for="password">Password</label>
+        <input
+          name="password"
+          id="password"
+          type="password"
+          placeholder="Enter your password"
+          required
+        /><br /><br />
+        <label for="role">Role</label>
+        <select id="role" name="role" required>
+          <option value="admin">admin</option>
+          <option value="doctor">doctor</option>
+          <option value="nurse">nurse</option>
+          <option value="receptionist">receptionist</option>
+          <option value="patient">patient</option>
+        </select>
+        <div id="departmentField" style="display: none">
+          <br />
+          <label for="department">Depatment</label>
+          <input
+            name="department"
+            id="department"
+            type="text"
+            placeholder="Enter department of doctor"
+          />
+        </div>
+        <br />
+        <button>Submit</button>
+      </form>
+    </div>
+
+    <script>
+      const role = document.getElementById("role");
+      const dept = document.getElementById("departmentField");
+
+      role.addEventListener("change", () => {
+        dept.style.display = role.value === "doctor" ? "block" : "none";
+      });
+    </script>
+  </body>
+</html>
