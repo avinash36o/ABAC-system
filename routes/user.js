@@ -34,11 +34,15 @@ router.get("/success", (req, res) => {
   res.send("user registered successfully : ");
 });
 
+router.get("/failure", (req, res) => {
+  res.send("Email or password is wrong");
+});
+
 //login
 router.post(
   "/login",
   passport.authenticate("local", {
-    failureRedirect: "/",
+    failureRedirect: "/user/failure",
   }),
   async (req, res) => {
     const logginedUser = req.user;
