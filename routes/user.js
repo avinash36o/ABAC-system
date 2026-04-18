@@ -3,7 +3,7 @@ const router = express.Router({ mergeParams: true });
 const User = require("../models/user.js");
 const passport = require("passport");
 
-//new user
+//Register new user
 router.post("/", async (req, res, next) => {
   try {
     let { username, email, role, department, password } = req.body;
@@ -34,10 +34,6 @@ router.get("/success", (req, res) => {
   res.send("user registered successfully : ");
 });
 
-router.get("/failure", (req, res) => {
-  res.send("Email or password is wrong");
-});
-
 //login
 router.post(
   "/login",
@@ -47,8 +43,22 @@ router.post(
   async (req, res) => {
     const logginedUser = req.user;
     console.log(logginedUser);
-    res.send(`loginned successful : ${logginedUser.username}`);
+    res.render(`./ejs/${logginedUser.role}.ejs`);
   },
 );
+
+router.get("/failure", (req, res) => {
+  res.send("Email or password is wrong");
+});
+
+//logout
+router.get("/logout", async (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      res.send("Some Error Occured: ", err);
+    }
+    res.redirect("/");
+  });
+});
 
 module.exports = router;

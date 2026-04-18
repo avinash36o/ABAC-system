@@ -47,7 +47,12 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use("/user", userRouter);
 
 app.get("/", (req, res) => {
-  res.render("ejs/index.ejs");
+  console.log(req.user);
+  if (req.user) {
+    res.render(`ejs/${req.user.role}.ejs`);
+  } else {
+    res.render("ejs/index.ejs");
+  }
 });
 
 app.listen(3000, () => {
