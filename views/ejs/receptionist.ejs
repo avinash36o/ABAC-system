@@ -4,9 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Receptionist</title>
+    <link rel="stylesheet" href="index.css" />
   </head>
   <body>
     <h1>You are in Receptionist dashboard</h1>
     <a href="/user/logout">Logout</a>
+    <div class="signup">
+      <h3>Add new patient</h3>
+      <form method="POST" action="/user/patient">
+        <label for="username">Name</label>
+        <input
+          id="username"
+          name="username"
+          placeholder="Enter patient name"
+          type="text"
+        /><br><br>
+        <label for="password">Password</label>
+        <input
+          id="password"
+          name="password"
+          placeholder="Enter password for patient"
+          type="password"
+        /><br><br>
+        <label for="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          placeholder="Enter Email of patient"
+          type="email"
+        /><br><br>
+        <label for="assignedDoctor">Assign Doctor</label>
+        <select id="assignedDoctor" name="assignedDoctor" required>
+          <%for(let doctor of doctors){%>
+              <option value="<%=doctor._id%>"><%=doctor.username%></option>
+          <%}%>  
+      </select><br><br>
+        <button>Submit</button>
+      </form>
+    </div>
   </body>
 </html>

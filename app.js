@@ -46,10 +46,11 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "/public")));
 app.use("/user", userRouter);
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   console.log(req.user);
   if (req.user) {
-    res.render(`ejs/${req.user.role}.ejs`);
+    const doctors = await User.find({ role: "doctor" });
+    res.render(`ejs/${req.user.role}.ejs`, { doctors });
   } else {
     res.render("ejs/index.ejs");
   }

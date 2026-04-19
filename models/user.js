@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema(
 
     // role-specific fields
     department: String, // doctor
-    assignedPatient: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // nurse/receptionist
+    assignedPatient: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // nurse/receptionist
     assignedDoctor: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // patient
     prescription: String, // patient
     billing: {

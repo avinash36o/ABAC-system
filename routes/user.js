@@ -41,9 +41,10 @@ router.post(
     failureRedirect: "/user/failure",
   }),
   async (req, res) => {
+    const doctors = await User.find({ role: "doctor" });
     const logginedUser = req.user;
     console.log(logginedUser);
-    res.render(`./ejs/${logginedUser.role}.ejs`);
+    res.render(`./ejs/${logginedUser.role}.ejs`, { doctors });
   },
 );
 
@@ -59,6 +60,27 @@ router.get("/logout", async (req, res) => {
     }
     res.redirect("/");
   });
+});
+
+//Add new patient route
+router.post("/patient", async (req, res) => {
+  try {
+    const { username, password, email, assignedDoctor } = req.body;
+    const patient = new User({
+      username: username,
+      email: email,
+      assignedDoctor: assignedDoctor,
+    });
+    const registeredPatient = await User.register(patient, password);
+
+    await User.findByIdAndUpdate(assignedDoctor, {
+      $push: { assignedPatient: registeredPatient._id },
+    });
+    res.send("Patient registered successfully");
+  } catch (err) {
+    console.log("Registration error:", err);
+    res.redirect("/"); // Redirect back to signup on error
+  }
 });
 
 module.exports = router;
