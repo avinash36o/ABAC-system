@@ -42,9 +42,10 @@ router.post(
   }),
   async (req, res) => {
     const doctors = await User.find({ role: "doctor" });
+    const patients = await User.find({ role: "patient" });
     const logginedUser = req.user;
     console.log(logginedUser);
-    res.render(`./ejs/${logginedUser.role}.ejs`, { doctors });
+    res.render(`./ejs/${logginedUser.role}.ejs`, { doctors, patients });
   },
 );
 

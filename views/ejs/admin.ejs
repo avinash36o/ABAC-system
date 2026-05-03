@@ -4,9 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin</title>
+    <link rel="stylesheet" href="index.css" />
   </head>
   <body>
     <h1>You are in Admin dashboard</h1>
     <a href="/user/logout">Logout</a>
+    <h2>Info of Doctors</h2>
+      <%for(doctor of doctors){%>
+        <div class="doctorInfo">
+          <p>Name: <%=doctor.username%></p>
+        <p>Department: <%=doctor.department%></p>
+        <p>Email: <%=doctor.email%></p>
+        <h3>------------------------------</h3>
+        </div>
+      <%}%>
+      <br><br>
+      <h2>Info of patients</h2>
+      <%for(patient of patients){%>
+        <div class="doctorInfo">
+          <p>Name: <%=patient.username%></p>
+        <p>Email: <%=patient.email%></p>
+        <p>AssignedPatient: <%=patient.assignedDoctor%></p>
+        <p>prescription: <%=patient.prescription%></p>
+        <h3>------------------------------</h3>
+        </div>
+      <%}%>
   </body>
 </html>

@@ -50,7 +50,8 @@ app.get("/", async (req, res) => {
   console.log(req.user);
   if (req.user) {
     const doctors = await User.find({ role: "doctor" });
-    res.render(`ejs/${req.user.role}.ejs`, { doctors });
+    const patients = await User.find({ role: "patient" });
+    res.render(`ejs/${req.user.role}.ejs`, { doctors, patients });
   } else {
     res.render("ejs/index.ejs");
   }

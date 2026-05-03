@@ -8,5 +8,10 @@
   <body>
     <h1>You are in doctor dashboard</h1>
     <a href="/user/logout">Logout</a>
+    <div class="container">
+      <%for(patient of patients){%>
+        <h4>Name: <%=patient.username%></h4>
+      <%}%>  
+    </div>
   </body>
 </html>
