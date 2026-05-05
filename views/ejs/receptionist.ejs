@@ -2,45 +2,103 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Receptionist</title>
-    <link rel="stylesheet" href="index.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Receptionist Dashboard</title>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="/receptionist.css" />
   </head>
+
   <body>
-    <h1>You are in Receptionist dashboard</h1>
-    <a href="/user/logout">Logout</a>
-    <div class="signup">
-      <h3>Add new patient</h3>
-      <form method="POST" action="/user/patient">
-        <label for="username">Name</label>
-        <input
-          id="username"
-          name="username"
-          placeholder="Enter patient name"
-          type="text"
-        /><br><br>
-        <label for="password">Password</label>
-        <input
-          id="password"
-          name="password"
-          placeholder="Enter password for patient"
-          type="password"
-        /><br><br>
-        <label for="email">Email</label>
-        <input
-          id="email"
-          name="email"
-          placeholder="Enter Email of patient"
-          type="email"
-        /><br><br>
-        <label for="assignedDoctor">Assign Doctor</label>
-        <select id="assignedDoctor" name="assignedDoctor" required>
-          <%for(let doctor of doctors){%>
-              <option value="<%=doctor._id%>"><%=doctor.username%></option>
-          <%}%>  
-      </select><br><br>
-        <button>Submit</button>
-      </form>
+
+
+    <div class="navbar">
+      <h2>Receptionist Dashboard</h2>
+      <a href="/user/logout" class="logout-btn">Logout</a>
     </div>
+
+    <div class="container">
+
+      <!-- 🔹 Add Patient Form -->
+      <div class="card">
+        <h3>Add New Patient</h3>
+
+        <form method="POST" action="/user/patient">
+
+          <div class="form-group">
+            <label>Name</label>
+            <input name="username" placeholder="Enter patient name" required />
+          </div>
+
+          <div class="form-group">
+            <label>Age</label>
+            <input type="number" name="age" placeholder="Enter age" required />
+          </div>
+
+          <div class="form-group">
+            <label>Gender</label>
+            <input name="gender" placeholder="Enter gender" required />
+          </div>
+
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" required />
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" required />
+          </div>
+
+          <div class="form-group">
+            <label>Assign Doctor</label>
+            <select name="assignedDoctor" required>
+              <% for(let doctor of doctors){ %>
+                <option value="<%= doctor._id %>"><%= doctor.username %></option>
+              <% } %>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Problem</label>
+            <input name="problem" placeholder="Enter patient problem" required />
+          </div>
+
+          <button type="submit">Add Patient</button>
+
+        </form>
+      </div>
+
+
+      <!-- 🔹 Patient List -->
+      <div class="card">
+        <h3>All Patients</h3>
+
+        <div class="patient-list">
+          <% for(let patient of patients){ %>
+            <div class="patient-item">
+              <div class="patient-info">
+                <!-- <strong><%= patient.username %></strong><br>
+                Age: <%= patient.age %> | <%= patient.gender %><br>
+                Problem: <%= patient.problem %> -->
+                <p><%= patient.username %></p>
+                <p>Age: <%= patient.age %></p>
+                <p>Gender: <%= patient.gender %></p>
+                <p>Problem: <%= patient.problem %></p>
+              </div>
+
+              <div class="badge">
+                Assigned
+              </div>
+            </div>
+          <% } %>
+        </div>
+
+      </div>
+
+    </div>
+
   </body>
 </html>

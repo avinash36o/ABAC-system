@@ -49,9 +49,21 @@ app.use("/user", userRouter);
 app.get("/", async (req, res) => {
   console.log(req.user);
   if (req.user) {
+    const logginedUser = await User.findById(req.user._id).populate(
+      "assignedPatient",
+    );
+    const Assignedpatients = logginedUser.assignedPatient;
+    console.log(logginedUser);
     const doctors = await User.find({ role: "doctor" });
     const patients = await User.find({ role: "patient" });
-    res.render(`ejs/${req.user.role}.ejs`, { doctors, patients });
+    const receptionists = await User.find({ role: "receptionist" });
+    res.render(`ejs/${req.user.role}.ejs`, {
+      logginedUser,
+      receptionists,
+      patients,
+      doctors,
+      Assignedpatients,
+    });
   } else {
     res.render("ejs/index.ejs");
   }

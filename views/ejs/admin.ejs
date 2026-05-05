@@ -1,33 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin</title>
-    <link rel="stylesheet" href="index.css" />
-  </head>
-  <body>
-    <h1>You are in Admin dashboard</h1>
-    <a href="/user/logout">Logout</a>
-    <h2>Info of Doctors</h2>
-      <%for(doctor of doctors){%>
-        <div class="doctorInfo">
-          <p>Name: <%=doctor.username%></p>
-        <p>Department: <%=doctor.department%></p>
-        <p>Email: <%=doctor.email%></p>
-        <h3>------------------------------</h3>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <link rel="stylesheet" href="/admin.css" />
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <h2>Admin Dashboard</h2>
+    <a href="/user/logout" class="logout-btn">Logout</a>
+  </div>
+
+  <div class="container">
+    <div class="grid">
+
+      <!-- 🔹 Add User -->
+      <div class="card">
+        <h3>Add Staff</h3>
+
+        <form method="POST" action="/user">
+
+          <div class="form-group">
+            <input name="username" placeholder="Name" required />
+          </div>
+
+          <div class="form-group">
+            <input name="email" type="email" placeholder="Email" required />
+          </div>
+
+          <div class="form-group">
+            <input name="password" type="password" placeholder="Password" required />
+          </div>
+
+          <div class="form-group">
+            <select name="role" id="role" required onchange="toggleDept()">
+              <option value="">Select Role</option>
+              <option value="doctor">Doctor</option>
+              <option value="receptionist">Receptionist</option>
+              <option value="nurse">Nurse</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="deptField" style="display:none;">
+            <input name="department" placeholder="Department (for doctor)" />
+          </div>
+
+          <button type="submit">Add User</button>
+
+        </form>
+      </div>
+
+      <!-- 🔹 Data Section -->
+      <div>
+
+        <!-- Doctors -->
+        <div class="card section">
+          <h3>Doctors</h3>
+
+          <% for(let doctor of doctors){ %>
+            <div class="item">
+              <div class="title"><%= doctor.username %></div>
+              <div class="small">Dept: <%= doctor.department %></div>
+              <div class="small">Email: <%= doctor.email %></div>
+            </div>
+          <% } %>
+
         </div>
-      <%}%>
-      <br><br>
-      <h2>Info of patients</h2>
-      <%for(patient of patients){%>
-        <div class="doctorInfo">
-          <p>Name: <%=patient.username%></p>
-        <p>Email: <%=patient.email%></p>
-        <p>AssignedPatient: <%=patient.assignedDoctor%></p>
-        <p>prescription: <%=patient.prescription%></p>
-        <h3>------------------------------</h3>
+
+        <!-- Patients -->
+        <div class="card section">
+          <h3>Patients</h3>
+
+          <% for(let patient of patients){ %>
+            <div class="item">
+              <div class="title"><%= patient.username %></div>
+              <div class="small">Email: <%= patient.email %></div>
+              <div class="small">Problem: <%= patient.problem %></div>
+              <div class="small">
+                Doctor: 
+                <%= patient.assignedDoctor ? patient.assignedDoctor.username : "Not Assigned" %>
+              </div>
+            </div>
+          <% } %>
+
         </div>
-      <%}%>
-  </body>
+
+        <!-- Receptionists -->
+        <div class="card section">
+          <h3>Receptionists</h3>
+
+          <% for(let r of receptionists){ %>
+            <div class="item">
+              <div class="title"><%= r.username %></div>
+              <div class="small">Email: <%= r.email %></div>
+            </div>
+          <% } %>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function toggleDept() {
+      const role = document.getElementById("role").value;
+      const dept = document.getElementById("deptField");
+
+      if(role === "doctor"){
+        dept.style.display = "block";
+      } else {
+        dept.style.display = "none";
+      }
+    }
+  </script>
+
+</body>
 </html>

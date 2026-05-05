@@ -41,11 +41,21 @@ router.post(
     failureRedirect: "/user/failure",
   }),
   async (req, res) => {
-    const doctors = await User.find({ role: "doctor" });
     const patients = await User.find({ role: "patient" });
-    const logginedUser = req.user;
+    const doctors = await User.find({ role: "doctor" });
+    const receptionists = await User.find({ role: "receptionist" });
+    const logginedUser = await User.findById(req.user._id)
+      .populate("assignedDoctor")
+      .populate("assignedPatient");
+    const Assignedpatients = logginedUser.assignedPatient;
     console.log(logginedUser);
-    res.render(`./ejs/${logginedUser.role}.ejs`, { doctors, patients });
+    res.render(`./ejs/${logginedUser.role}.ejs`, {
+      logginedUser,
+      receptionists,
+      patients,
+      doctors,
+      Assignedpatients,
+    });
   },
 );
 
@@ -66,9 +76,13 @@ router.get("/logout", async (req, res) => {
 //Add new patient route
 router.post("/patient", async (req, res) => {
   try {
-    const { username, password, email, assignedDoctor } = req.body;
+    const { username, password, email, assignedDoctor, age, gender, problem } =
+      req.body;
     const patient = new User({
       username: username,
+      problem: problem,
+      age: age,
+      gender: gender,
       email: email,
       assignedDoctor: assignedDoctor,
     });
@@ -77,11 +91,23 @@ router.post("/patient", async (req, res) => {
     await User.findByIdAndUpdate(assignedDoctor, {
       $push: { assignedPatient: registeredPatient._id },
     });
-    res.send("Patient registered successfully");
+    res.redirect("/");
   } catch (err) {
     console.log("Registration error:", err);
     res.redirect("/"); // Redirect back to signup on error
   }
+});
+
+// Add prescription
+router.post("/add-prescription/:id", async (req, res) => {
+  const { id } = req.params;
+  const { prescription } = req.body;
+
+  await User.findByIdAndUpdate(id, {
+    prescription: prescription,
+  });
+
+  res.redirect("/");
 });
 
 module.exports = router;

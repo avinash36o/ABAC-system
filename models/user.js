@@ -5,6 +5,9 @@ const passportLocalMongoose = require("passport-local-mongoose").default;
 const userSchema = new mongoose.Schema(
   {
     username: { type: String, required: true },
+    age: Number,
+    gender: String,
+    problem: String,
     email: { type: String, required: true, unique: true },
     role: {
       type: String,
@@ -33,7 +36,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-// passport-local-mongoose adds hash/salt and authentication helpers
 userSchema.plugin(passportLocalMongoose, {
   usernameField: "email",
 });
