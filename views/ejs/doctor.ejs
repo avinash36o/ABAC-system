@@ -34,15 +34,15 @@
     <div class="patient-info">
       <h3><%=patient.username%></h3>
       <div class="patient-details">
-        <span>Age: 42</span>
-        <span>Male</span>
+        <span>Age: <%=patient.age%></span>
+        <span><%=patient.gender%></span>
       </div>
     </div>
     <span class="status-badge status-prescribed">Prescribed</span>
   </div>
 
   <div class="card-body">
-    <span class="ailment">Viral Fever</span>
+    <span class="ailment"><%=patient.problem%></span>
 
     <!--  PRESCRIPTION SECTION -->
     <form action="/user/add-prescription/<%= patient._id %>" method="POST">

@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router({ mergeParams: true });
 const User = require("../models/user.js");
 const passport = require("passport");
+const { isReceptionist, isDoctor, isAdmin } = require("../middleware.js");
 
 //Register new user
-router.post("/", async (req, res, next) => {
+router.post("/", isAdmin, async (req, res, next) => {
   try {
     let { username, email, role, department, password } = req.body;
     const user = new User({
@@ -74,7 +75,7 @@ router.get("/logout", async (req, res) => {
 });
 
 //Add new patient route
-router.post("/patient", async (req, res) => {
+router.post("/patient", isReceptionist, async (req, res) => {
   try {
     const { username, password, email, assignedDoctor, age, gender, problem } =
       req.body;
@@ -99,7 +100,7 @@ router.post("/patient", async (req, res) => {
 });
 
 // Add prescription
-router.post("/add-prescription/:id", async (req, res) => {
+router.post("/add-prescription/:id", isDoctor, async (req, res) => {
   const { id } = req.params;
   const { prescription } = req.body;
 
